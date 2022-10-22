@@ -1,3 +1,5 @@
+import { listen } from "express/lib/application.js";
+import { JsxFlags, textSpanIntersectsWith } from "typescript";
 import { setItems } from "./index.js";
 
 export class user {
@@ -44,6 +46,29 @@ export class user {
 
         }
         direct.closeSync();
+    }
+
+    getKeyByValue(object, value) {
+      return Object.keys(object). find(key => object[key] === value);
+    }
+
+    storeInfo(fName: string){
+      const testFolder = fName;
+      const fs = require('fs');
+
+      fs.readdir(testFolder, (err, files) => {
+        files.forEach(file => {
+          var dict = setItems(file);
+          const keys = Object.keys(dict)
+          for (let i = 0; i < keys.length; i++){
+            if(keys[i] === "Vaccinations:"){
+              while(!keys[i].startsWith("Med")){
+                this.vacs.push(dict[i])
+              }
+            }
+          }
+        });
+      });
     }
 
     addDict(dic: string) {
@@ -99,7 +124,6 @@ console.log(Paul.getDocs())
 
 // setItems(Paul.setItems(1));
 
-var dict = {}
 Paul.readFiles('./r-file', (filepath, name, ext, stat) => {
     Paul.addDict(filepath)
     console.log(setItems(filepath))
