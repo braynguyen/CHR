@@ -1,11 +1,14 @@
+import { setItems } from "./index.js";
+import {user} from "./user.js"
+
 class doctor {
-    patient: user[];
+    patients: user[];
     name: string;
     id: number;
 
     constructor(n: string, p: user[], id: number){
         this.name = n;
-        this.patient = p;
+        this.patients = p;
         this.id = id;
     }
 
@@ -16,6 +19,8 @@ class doctor {
     }
 
     setUser(u: user){
-        this.patient.push(u);
+        this.patients.push(u);
     }
 }
+
+setItems('./final-test.pdf')

@@ -12,7 +12,7 @@ async function getContent(src){
 }
 
 
-async function getItems(src){
+async function setItems(src){
     //isLoggedIn()
     var content = await getContent(src)
     var items
@@ -21,10 +21,17 @@ async function getItems(src){
     for(var i = 0; i < lineCount; i++){
         items = content.items[i]["str"].split(" ")
         // console.log(items)
-        dict[items[0]] = items[1]
+        dict[items[0]] = items[1];
     }
     console.log(dict)
-    return items
 }
-//getItems("./sample-parse-2.pdf")
-getItems(getDocs())
+
+function getItems() {
+    return dict
+}
+
+module.exports.setItems = setItems;
+
+setItems("./final-test.pdf")
+console.log(getItems())
+//setItems(getDocs())
