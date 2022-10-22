@@ -1,5 +1,3 @@
-import { listen } from "express/lib/application.js";
-import { JsxFlags, textSpanIntersectsWith } from "typescript";
 import { setItems } from "./index.js";
 
 export class user {
@@ -12,7 +10,7 @@ export class user {
     vacs: string[];
     allergies: string[];
     files: string[];
-    //labResults: string[];
+    labResults: string[];
     suboxone: boolean;
     methadone: boolean;
     
@@ -48,10 +46,6 @@ export class user {
         direct.closeSync();
     }
 
-    getKeyByValue(object, value) {
-      return Object.keys(object). find(key => object[key] === value);
-    }
-
     storeInfo(fName: string){
       const testFolder = fName;
       const fs = require('fs');
@@ -60,14 +54,27 @@ export class user {
         files.forEach(file => {
           var dict = setItems(file);
           const keys = Object.keys(dict)
+          var j = 0;
           for (let i = 0; i < keys.length; i++){
-            if(keys[i] === "Vaccinations:"){
+            if(keys[j].startsWith("Vac")){
               while(!keys[i].startsWith("Med")){
                 this.vacs.push(dict[i])
               }
             }
+            if(keys[j].startsWith("Med")){
+              while(!keys[i].startsWith("Al")){
+                this.meds.push(dict[i]);
+              }
+            }
+            // if(keys[j].startsWith()){
+              
+            // }
+            else{
+              j = i
+            }
           }
         });
+        console.log(this.meds);
       });
     }
 
@@ -121,6 +128,7 @@ export class user {
 const Paul = new user("Paul", 2, 3, "r")
 Paul.setDocs()
 console.log(Paul.getDocs())
+Paul.storeInfo("final-test.pdf");
 
 // setItems(Paul.setItems(1));
 
